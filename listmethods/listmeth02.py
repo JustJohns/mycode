@@ -14,3 +14,7 @@ print(protoa)
 
 proto2.insert(2, 4200)
 print(proto2)
+
+proto2.sort()
+print(proto2)
+
