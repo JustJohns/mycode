@@ -2,18 +2,23 @@
 """Driving a simple game framework with
    a dictionary object | Alta3 Research"""
 
+
 def showInstructions():
     """Show the game instructions when called"""
-    #print a main menu and the commands
+    # print a main menu and the commands
     print('''
     RPG Game
     ========
     Commands:
       go [direction]
       get [item]
-    '''
-    'You win by getting to the Garden with key and potion'
-    )
+      use [use item]  
+      examine [area or item]
+
+      '''
+          'You win by getting to the Garden with key and potion'
+          )
+
 
 def showStatus():
     """determine the current status of the player"""
@@ -26,10 +31,15 @@ def showStatus():
     if "item" in rooms[currentRoom]:
         print('You see a ' + rooms[currentRoom]['item'])
     print("---------------------------")
-    if "furniture" in rooms[currentRoom]:
+    if "itemF" in rooms[currentRoom]:
         print('You see a ' + rooms[currentRoom]['item'])
     print("---------------------------")
 
+
+# player starting stats
+health = 100
+energy = 100
+thirst = 100
 
 # an inventory, which is initially empty
 inventory = []
@@ -37,33 +47,60 @@ inventory = []
 # a dictionary linking a room to other rooms
 rooms = {
 
-            'Hall' : {
-                'north' : 'Master Bedroom',
-                'south' : 'Kitchen',
-                'east' : 'Dining Room',
-                'item' : 'key'
-                },
+    'Outside': {
+        'east': 'House',
+        'north': 'forest',
+        'west': 'forest',
+        'south': 'forest'
+    },
+    'House': {
 
-            'Kitchen' : {
-                'north' : 'Hall',
-                'item' : 'monster'
-                },
-            'Dining Room' : {
-                'west' : 'Hall',
-                'south' : 'Garden',
-                'item' : 'potion',
-                },
-            'Garden' : {
-                'north' : 'Dining Room'
-                },
-            'Master Bedroom' : {
-                'south' : 'Hall',
-                'item' : 'Bed'
-                },
-         }
+    },
+    'Hall': {
+        'north': 'hallway',
+        'south': 'Kitchen',
+        'east': 'Dining Room',
+        'item': 'key'
+    },
+    'Kitchen': {
+        'north': 'Hall',
+        'item': 'monster'
+    },
+    'Dining Room': {
+        'west': 'Hall',
+        'south': 'Garden',
+        'item': 'potion',
+    },
+    'Garden': {
+        'north': 'Dining Room'
+    },
+    'hallway': {
+        'north': 'Master Bedroom',
+        'south': 'Hall',
+        'east': 'east hallway',
+        'item': 'window',
+    },
+    'Master Bedroom': {
+        'north': 'bathroom',
+        'south': 'hallway',
+        'item': 'bed',
+    },
+    'east hallway': {
+        'north': 'closet',
+    },
+    'bathroom': {
+        'item': 'sink',
+        'item': 'mirror',
+        'item': 'toilet',
+        'item': 'shower',
+        'item': 'cabinet'
+    }
 
-# start the player in the Hall
-currentRoom = 'Hall'
+
+}
+
+# start the player in the Outside
+currentRoom = 'Outside'
 
 showInstructions()
 
@@ -74,54 +111,61 @@ while True:
     # the player MUST type something in
     # otherwise input will keep asking
     move = ''
-    while move == '':  
+    while move == '':
         move = input('>')
 
     # normalizing input:
     # .lower() makes it lower case, .split() turns it to a list
-    # therefore, "get golden key" becomes ["get", "golden key"]          
+    # therefore, "get golden key" becomes ["get", "golden key"]
     move = move.lower().split(" ", 1)
 
-    #if they type 'go' first
+    # if they type 'go' first
     if move[0] == 'go':
-        #check that they are allowed wherever they want to go
+        # check that they are allowed wherever they want to go
         if move[1] in rooms[currentRoom]:
-            #set the current room to the new room
+            # set the current room to the new room
             currentRoom = rooms[currentRoom][move[1]]
         # if they aren't allowed to go that way:
         else:
             print('You can\'t go that way!')
 
-    #if they type 'get' first
-    if move[0] == 'get' :
+    # if they type 'get' first
+    if move[0] == 'get':
         # make two checks:
         # 1. if the current room contains an item
         # 2. if the item in the room matches the item the player wishes to get
         if "item" in rooms[currentRoom] and move[1] in rooms[currentRoom]['item']:
-            #add the item to their inventory
+            # add the item to their inventory
             inventory.append(move[1])
-            #display a helpful message
+            # display a helpful message
             print(move[1] + ' got!')
-            #delete the item key:value pair from the room's dictionary
+            # delete the item key:value pair from the room's dictionary
             del rooms[currentRoom]['item']
         # if there's no item in the room or the item doesn't match
         else:
-            #tell them they can't get it
+            # tell them they can't get it
             print('Can\'t get ' + move[1] + '!')
-    #if the type 'sleep' first
-    #if move[0] == 'sleep' :
+
+    # if they type 'use' first
+    #if move[0] == 'use':
+        # if item room contains item
+        # if item in room matches item player wishes to use
+        #if 'item' in rooms[currentRoom] and move[1] in rooms[currentRoom]['item']:
+
+
+    # if the type 'sleep' first
+    if move[0] == 'sleep' :
         # make checks for bed in room
-        #if 'furniture' in rooms[currentRoom] and move [1] in rooms[currentRoom]['item']:
-            
-    
-    #if player enters room with monster
-    if 'item' in rooms[currentRoom] and 'monster' in rooms [currentRoom]['item']:
+        if 'item' in rooms[currentRoom] and move [1] in rooms[currentRoom]['item']:
+            player.health += 25
+            print("You have slept and ")
+
+    # if player enters room with monster
+    if 'item' in rooms[currentRoom] and 'monster' in rooms[currentRoom]['item']:
         print('A monster has got you... GAME OVER!')
         break
 
-    ## Define how player wins
+    # Define how player wins
     if currentRoom == 'Garden' and 'key' in inventory and 'potion' in inventory:
         print('You escaped the house with the ultra rare key and magic potion... YOU WIN!')
         break
-
-
