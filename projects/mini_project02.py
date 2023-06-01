@@ -56,12 +56,11 @@ def show_status():
         print('You see a ' + rooms[currentroom]['item'])
 
 def endGame():
-    if move == 'end':
-        userInput = input("Are you sure?\t")
-        if userInput == 'yes':
-            exit()
-        else:
-            print("\nCan you escape this place?\n")
+    userInput = input("Are you sure?\t")
+    if userInput == 'yes':
+        exit()
+    else:
+        print("\nCan you escape this place?\n")
 
 # an inventory, which is initially empty
 inventory = []
@@ -217,7 +216,8 @@ while True:
         print('You escaped the house with the ultra rare key and magic potion... YOU WIN!')
         break
 
-    endGame()
+    if move[0] == 'end' or move[0] == 'end game':
+        endGame()
             
     
   
