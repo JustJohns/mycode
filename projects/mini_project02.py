@@ -62,6 +62,12 @@ def endGame():
     else:
         print("\nCan you escape this place?\n")
 
+def sleep():
+    Player(health, energy).health += 25
+    Player(health, energy ).energy += 100
+    print("You have slept in the bed and some time has passed")
+
+
 # an inventory, which is initially empty
 inventory = []
 
@@ -183,14 +189,12 @@ while True:
     # if player enters room with bed
     if move[0] == 'sleep':
         if 'item' in rooms[currentroom] and 'bed' in rooms[currentroom]['item']:
-            Player(health, energy).health += 25
-            Player(health, energy ).energy += 100
-            print("You have slept in the bed and some time has passed")
+            sleep()
         else:
             print("You can't do that here")
 
     if move[0] == 'status':
-        print()
+        print("here")
     
     # if they type 'examine' first
     if move[0] == 'examine':
