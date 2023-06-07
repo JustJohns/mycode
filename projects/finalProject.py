@@ -211,16 +211,16 @@ while True:
             print('Can\'t get ' + move[1] + '!')
 
     # if they type 'use' first
-    #if move[0] == 'use':
-    #    if 'potion' in inventory:
-    #        useItem(item)
-        # if item room contains item
-        # if item in room matches item player wishes to use
-        #if 'item' in rooms[currentroom] and move[1] in rooms[currentroom]['item']:
+    if move[0] == 'use':
+        if 'potion' in inventory:
+            useItem(item)
+        #if item room contains item
+        #if item in room matches item player wishes to use
+        if 'item' in rooms[currentroom] and move[1] in rooms[currentroom]['item']:
             # examine item
-        #    print("")
-    #    else:
-    #        print("You can't do that here")
+            print("")
+        else:
+            print("You can't do that here")
 
     # if player enters room with bed
     if move[0] == 'sleep':
@@ -262,6 +262,3 @@ while True:
 
     if move[0] == 'end' or move[0] == 'end game' or move[0] == 'exit' or move[0] == 'quit':
         quitGame()
-            
-    
-  
